@@ -41,7 +41,7 @@ player.gameboard.placeShip([3, 4], 3, "horizontal");
 createBoard();
 player.gameboard.placeShip([1, 2], 5, "vertical");
 createBoard();
-player.gameboard.placeShip([8,8], 2, "horizontal");
+player.gameboard.placeShip([9,8], 2, "horizontal");
 createBoard();
 player.gameboard.placeShip([0,0], 4, "vertical");
 createBoard();
