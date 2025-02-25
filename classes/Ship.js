@@ -3,6 +3,7 @@ class Ship {
         this.length = length;
         this.hits = 0;
         this.sunk = false;
+        this.symbol = 'S'
     };
 
     hit() {
@@ -18,6 +19,6 @@ class Ship {
 };
 
 // Jest Testing
-module.exports = Ship;
+// module.exports = Ship;
 
-// export default Ship;
+export default Ship;

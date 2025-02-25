@@ -1,4 +1,5 @@
-const Ship = require('./Ship.js');
+// const Ship = require('./Ship.js');
+import Ship from './Ship.js';
 
 class Gameboard {
     constructor() {
@@ -21,8 +22,8 @@ class Gameboard {
             }
         }
 
-        if (ship.length + col >= 10) return message[0];
-        if (ship.length + row >= 10) return message[0];
+        if (ship.length + col > 10) return message[0];
+        if (ship.length + row > 10) return message[0];
 
         if (orientiaton === "horizontal") {
             for (let i = 0; i < ship.length; i++) {
@@ -40,7 +41,7 @@ class Gameboard {
     };
 
     receiveAttack([row, col]) {
-        if (this.gameboard[row][col] !== 0 && this.gameboard[row][col] !== 'MISS') {
+        if (this.gameboard[row][col] !== 0 && this.gameboard[row][col] !== 'X') {
             const ship = this.gameboard[row][col];
             ship.hit();
             if (ship.isSunk()) {
@@ -51,7 +52,7 @@ class Gameboard {
             }
             return this.gamemeOver = false;
         }
-        this.gameboard[row][col] = 'MISS';
+        this.gameboard[row][col] = 'X';
     };
 };
 
