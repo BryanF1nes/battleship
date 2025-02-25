@@ -27,4 +27,29 @@ test('If Ship is being placed on another ship throw an error', () => {
 
     gameboard.placeShip([3, 4], 4, "horizontal");
     expect(gameboard.placeShip([3, 5], 3, "vertical")).toBe('Ship is already placed here');
+});
+
+test('Receive attack checks if [x, y] coords hit a ship', () => {
+    const gameboard = new Gameboard();
+
+    gameboard.placeShip([3, 4], 3, "horizontal");
+    gameboard.receiveAttack([3,4]);
+    expect(gameboard.gameboard[3][4]).toEqual({ length: 3, hits: 1, sunk: false })
+});
+
+test('Receive attack was a miss', () => {
+    const gameboard = new Gameboard();
+
+    gameboard.placeShip([3, 4], 3, "horizontal");
+    gameboard.receiveAttack([3, 8]);
+    expect(gameboard.gameboard[3][8]).toBe('MISS')
+});
+
+test('If all ships are sunk, end game', () => {
+    const gameboard = new Gameboard();
+
+    gameboard.placeShip([3, 4], 2, "vertical");
+    gameboard.receiveAttack([3,4]);
+    gameboard.receiveAttack([4,4]);
+    expect(gameboard.gameOver).toBeTruthy();
 })
