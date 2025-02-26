@@ -1,21 +1,21 @@
 import "./styles.css";
 import Player from "../classes/Player.js";
 import createBoard from "../modules/createBoard.js";
-import playerBoard from "../modules/playerBoard.js";
+import spawnShips from "../modules/playerBoard.js";
 
 const player = new Player();
 const container = document.querySelector("#container");
 const gameboard = player.gameboard.gameboard;
 
-playerBoard(player);
+spawnShips(player);
 createBoard(container, gameboard);
 
 container.addEventListener("click", (e) => {
   const dataSet = e.target.getAttribute("data-set");
-  const [x, y] = dataSet.split("").map(Number);
-
+  
   if (!dataSet) return;
-
+  const [x, y] = dataSet.split("").map(Number);
+  
   if (
     player.gameboard.gameboard[x][y] === "X" ||
     player.gameboard.gameboard[y][x] === "HIT" ||
