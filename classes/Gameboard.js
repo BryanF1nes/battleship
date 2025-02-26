@@ -5,7 +5,7 @@ class Gameboard {
   constructor() {
     this.gameboard = Array(10)
       .fill()
-      .map(() => Array(10).fill(0));
+      .map(() => Array(10).fill(""));
     this.gameOver = false;
     this.ships = 0;
   }
@@ -13,7 +13,6 @@ class Gameboard {
   placeShip([row, col], length, orientiaton) {
     const ship = new Ship(length);
 
-    // If [row, col] === ship return message
     const message = ["Out of bounds", "Ship is already placed here"];
 
     if (orientiaton === "horizontal" && ship.length + col > 10)
@@ -21,10 +20,10 @@ class Gameboard {
     if (orientiaton === "vertical" && ship.length + row > 10) return message[0];
 
     for (let i = 0; i < ship.length; i++) {
-      if (orientiaton === "horizontal" && this.gameboard[row][col + i] !== 0) {
+      if (orientiaton === "horizontal" && this.gameboard[row][col + i] !== "") {
         return message[1];
       }
-      if (orientiaton === "vertical" && this.gameboard[row + i][col] !== 0) {
+      if (orientiaton === "vertical" && this.gameboard[row + i][col] !== "") {
         return message[1];
       }
     }
@@ -45,17 +44,28 @@ class Gameboard {
   }
 
   receiveAttack([row, col]) {
-    if (this.gameboard[row][col] !== 0 && this.gameboard[row][col] !== "X") {
+    if (
+      this.gameboard[row][col] === "X" ||
+      this.gameboard[row][col] === "HIT"
+    ) {
+      return;
+    }
+
+    if (typeof this.gameboard[row][col] === "object") {
       const ship = this.gameboard[row][col];
       ship.hit();
+
       if (ship.isSunk()) {
         this.ships--;
         if (this.ships === 0) {
-          return (this.gameOver = true);
+          this.gameOver = true;
         }
       }
-      return (this.gamemeOver = false);
+
+      this.gameboard[row][col] = "HIT";
+      return;
     }
+
     this.gameboard[row][col] = "X";
   }
 }
