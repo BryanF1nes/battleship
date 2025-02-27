@@ -1,38 +1,45 @@
-function createBoard(container, gameboard) {
-  container.textContent = "";
+function createBoard(container, gameboard, player) {
+  container.innerHTML = "";
+
   const board = document.createElement("div");
-  board.id = "gameboard";
-  board.classList.add("flex");
+  board.id = `${player}-gameboard`;
+  board.classList.add("grid", "grid-cols-10", "gap-1");
+
   for (let i = 0; i < gameboard.length; i++) {
-    const rows = document.createElement("div");
     for (let j = 0; j < gameboard[i].length; j++) {
-      const cols = document.createElement("div");
-      cols.setAttribute("data-set", `${j}${i}`);
-      cols.classList.add(
+      const cell = document.createElement("div");
+      cell.setAttribute("data-set", `${i}-${j}`);
+      cell.classList.add(
         "w-8",
         "h-8",
         "border",
         "flex",
         "items-center",
         "justify-center",
-        "cursor-pointer",
+        "cursor-pointer"
       );
-      if (gameboard[j][i] === "HIT") {
-        cols.classList.add("bg-yellow-500");
-        cols.textContent = "H";
-      } else if (typeof gameboard[j][i] === "object") {
-        cols.classList.add("bg-red-500");
-        cols.textContent = "S";
-      } else if (gameboard[j][i] === "X") {
-        cols.classList.add("bg-gray-800");
-        cols.textContent = "X";
+
+      if (gameboard[i][j] === "HIT") {
+        cell.classList.add("bg-yellow-500");
+        cell.textContent = "H";
+      } else if (gameboard[i][j] === "X") {
+        cell.classList.add("bg-gray-800");
+        cell.textContent = "X";
+      } else if (typeof gameboard[i][j] === "object") {
+        if (player === `ai`) {
+          cell.classList.add("bg-blue-100");
+        } else {
+          cell.classList.add("bg-red-500"); 
+          cell.textContent = "";
+        }
       } else {
-        cols.textContent = gameboard[j][i];
+        cell.classList.add("bg-blue-100");
       }
-      rows.append(cols);
+
+      board.append(cell);
     }
-    board.append(rows);
   }
+
   container.append(board);
 }
 
