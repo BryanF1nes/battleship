@@ -23,7 +23,7 @@ function createBoard(container, gameboard, player) {
         cell.classList.add("bg-yellow-500");
         cell.textContent = "H";
       } else if (gameboard[i][j] === "X") {
-        cell.classList.add("bg-gray-800");
+        cell.classList.add("bg-blue-200");
         cell.textContent = "X";
       } else if (typeof gameboard[i][j] === "object") {
         if (player === `ai`) {
