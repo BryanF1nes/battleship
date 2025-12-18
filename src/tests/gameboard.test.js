@@ -33,7 +33,7 @@ test('Gameboard - Can place ships on the edges', () => {
     const gameboard = new Gameboard();
 
     expect(gameboard.placeShip(2, [0, 8])).toBeTruthy();
-    expect(gameboard.placeShip(2, [8, 0], "vertical")).toBeTruthy();
+    expect(gameboard.placeShip(3, [0, 9], "vertical")).toBeTruthy();
 });
 
 test('Gameboard - Can receive an attack at a given ([x, y]) coordinate', () => {
@@ -42,4 +42,32 @@ test('Gameboard - Can receive an attack at a given ([x, y]) coordinate', () => {
     gameboard.placeShip(2, [0, 1]);
     gameboard.receiveAttack([0, 1]);
     expect(gameboard.board[0][1].hit).toBeTruthy();
-})
+});
+
+test('Gameboard - Cant attack an already attacked cell', () => {
+    const gameboard = new Gameboard();
+
+    gameboard.receiveAttack([0, 1]);
+    expect(gameboard.receiveAttack([0, 1])).toBeFalsy();
+});
+
+test('Gameboard - Can attack a cell with a ship, ship registers the hit', () => {
+    const gameboard = new Gameboard();
+
+    gameboard.placeShip(3, [0, 1]);
+    gameboard.receiveAttack([0, 1]);
+    const ship = gameboard.board[0][1].ship;
+    expect(ship.hits).toBe(1);
+});
+
+test('Gameboard - Will update gameboard.ships if a ship is sunk', () => {
+    const gameboard = new Gameboard();
+
+    gameboard.placeShip(3, [0, 1]);
+
+    gameboard.receiveAttack([0, 1]);
+    gameboard.receiveAttack([0, 2]);
+    gameboard.receiveAttack([0, 3]);
+
+    expect(gameboard.ships.length).toBe(0);
+});

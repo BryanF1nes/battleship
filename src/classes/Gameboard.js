@@ -3,6 +3,7 @@ import { Ship } from "./Ship";
 export class Gameboard {
     constructor() {
         this.board = this._generateBoard();
+        this.ships = [];
     }
 
     _generateBoard() {
@@ -11,12 +12,11 @@ export class Gameboard {
         }));
     }
 
-    _outOfBounds(coords, length) {
+    _outOfBounds(coords, length, orientation) {
         const [x, y] = coords;
 
-        if (x + length > 10 || y + length > 10) {
-            return true;
-        }
+        if (orientation === "horizontal" && y + length > 10) return true;
+        if (orientation === "vertical" && x + length > 10) return true;
 
         return false;
     }
@@ -26,7 +26,7 @@ export class Gameboard {
 
         const [x, y] = coords;
 
-        if (this._outOfBounds(coords, length)) {
+        if (this._outOfBounds(coords, length, orientation)) {
             return false;
         }
 
@@ -38,12 +38,29 @@ export class Gameboard {
             }
         }
 
+        this.ships.push(ship);
         return true;
     }
 
     receiveAttack(coords) {
         const [x, y] = coords;
 
-        this.board[x][y].hit = true;
+        if (this.board[x][y].hit) {
+            return false;
+        }
+
+        if (this.board[x][y].ship instanceof Ship) {
+            const ship = this.board[x][y].ship;
+            this.board[x][y].hit = true;
+            ship.hit();
+
+            if (ship.sunk) {
+                const index = this.ships.findIndex((s) => s.sunk === true ? s : undefined)
+                this.ships.splice(index, 1);
+                return false;
+            }
+
+            return true;
+        }
     }
 }
