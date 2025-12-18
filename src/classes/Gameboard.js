@@ -44,23 +44,23 @@ export class Gameboard {
 
     receiveAttack(coords) {
         const [x, y] = coords;
+        const cell = this.board[x][y]
 
-        if (this.board[x][y].hit) {
+        if (cell.hit) {
             return false;
         }
 
-        this.board[x][y].hit = true;
+        cell.hit = true;
 
-        if (this.board[x][y].ship instanceof Ship) {
-            const ship = this.board[x][y].ship;
-            ship.hit();
+        if (cell.ship instanceof Ship) {
+            cell.ship.hit();
 
-            if (ship.sunk) {
-                const index = this.ships.findIndex((s) => s.sunk === true ? s : undefined)
-                this.ships.splice(index, 1);
-                return false;
+            if (cell.ship.sunk) {
+                const index = this.ships.findIndex((s) => s === cell.ship)
+                if (index !== -1) this.ships.splice(index, 1);
             }
-            return true;
         }
+
+        return true;
     }
 }
