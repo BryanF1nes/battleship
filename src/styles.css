@@ -59,3 +59,90 @@ p {
     --secondary: #dedcff;
     --accent: #433bff;
 }
+
+/* ===== Layout ===== */
+
+.boards {
+    display: flex;
+    gap: 3rem;
+    justify-content: center;
+    padding: 3rem;
+}
+
+.player-board {
+    display: grid;
+    grid-template-columns: repeat(10, 40px);
+    grid-template-rows: repeat(10, 40px);
+    gap: 4px;
+    background-color: var(--background-secondary);
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== Cells ===== */
+
+.cell {
+    width: 40px;
+    height: 40px;
+    background-color: #e5e7eb;
+    border-radius: 6px;
+    cursor: pointer;
+    transition:
+        background-color 0.15s ease,
+        transform 0.1s ease;
+}
+
+.cell:hover {
+    background-color: var(--secondary);
+    transform: scale(1.05);
+}
+
+/* ===== Ships ===== */
+
+.cell.ship {
+    background-color: #6b7280;
+}
+
+/* ===== Misses ===== */
+
+.cell.miss {
+    background-color: #cbd5e1;
+    position: relative;
+}
+
+.cell.miss::after {
+    content: "•";
+    font-size: 24px;
+    color: #334155;
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+}
+
+/* ===== Hits ===== */
+
+.cell.hit {
+    background-color: #ef4444;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cell.hit::after {
+    content: "✕";
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* ===== Board labels ===== */
+
+.board-title {
+    text-align: center;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}

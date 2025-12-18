@@ -49,9 +49,10 @@ export class Gameboard {
             return false;
         }
 
+        this.board[x][y].hit = true;
+
         if (this.board[x][y].ship instanceof Ship) {
             const ship = this.board[x][y].ship;
-            this.board[x][y].hit = true;
             ship.hit();
 
             if (ship.sunk) {
@@ -59,7 +60,6 @@ export class Gameboard {
                 this.ships.splice(index, 1);
                 return false;
             }
-
             return true;
         }
     }
