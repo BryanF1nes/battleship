@@ -21,6 +21,31 @@ export class Gameboard {
         return false;
     }
 
+    _isNearAnotherShip(coords, length, orientation) {
+        const [x, y] = coords;
+
+        for (let i = 0; i < length; i++) {
+            const currentX = orientation === "vertical" ? x + i : x;
+            const currentY = orientation === "horizontal" ? y + i : y;
+
+            // Check a 1-tile buffer around the current cell
+            for (let dx = -1; dx <= 1; dx++) {
+                for (let dy = -1; dy <= 1; dy++) {
+                    const checkX = currentX + dx;
+                    const checkY = currentY + dy;
+
+                    if (checkX >= 0 && checkX < 10 && checkY >= 0 && checkY < 10) {
+                        if (this.board[checkX][checkY].ship !== null) {
+                            return true; // Another ship is nearby
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
     placeShip(length, coords, orientation = "horizontal") {
         const ship = new Ship(length);
 
@@ -29,6 +54,7 @@ export class Gameboard {
         if (this._outOfBounds(coords, length, orientation)) {
             return false;
         }
+        if (this._isNearAnotherShip(coords, length, orientation)) return false
 
         for (let i = 0; i < ship.length; i++) {
             if (orientation === "horizontal") {
@@ -62,5 +88,9 @@ export class Gameboard {
         }
 
         return true;
+    }
+
+    hasLost() {
+        return this.ships.length === 0;
     }
 }

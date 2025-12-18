@@ -1,7 +1,8 @@
 import "./styles.css";
 import { createGame } from "./modules/gameController";
 import { renderBoard } from "./modules/ui";
-import { bindBoardEvents } from "./modules/domEvents";
+import { bindGlobalEvents, bindBoardEvents } from "./modules/domEvents";
+
 
 const boards = document.querySelector(".boards");
 const playerBoard = document.createElement("div");
@@ -13,9 +14,12 @@ computerBoard.className = "computer-board";
 boards.append(playerBoard, computerBoard);
 
 const game = createGame();
-game.setupBoards();
+game.startPlacement();
 
 renderBoard(game.player.gameboard, playerBoard);
 renderBoard(game.computer.gameboard, computerBoard, { hideShips: true });
 
 bindBoardEvents(computerBoard, game, true);
+bindBoardEvents(playerBoard, game, false);
+
+bindGlobalEvents(game);
