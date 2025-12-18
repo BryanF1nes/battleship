@@ -8,8 +8,12 @@ export const createGame = (() => {
     const playerBoard = document.createElement("div");
     playerBoard.className = "player-board";
 
+    const computerBoard = document.createElement("div");
+    computerBoard.className = "computer-board";
+
     const init = () => {
         boards.appendChild(playerBoard);
+        boards.appendChild(computerBoard);
         player.gameboard.placeShip(3, [0, 4]);
         player.gameboard.placeShip(5, [2, 1], "vertical");
         player.gameboard.placeShip(3, [4, 9], "vertical");
@@ -17,6 +21,7 @@ export const createGame = (() => {
         player.gameboard.placeShip(2, [9, 3]);
 
         render(player.gameboard, playerBoard);
+        render(computer.gameboard, computerBoard);
     }
 
     return { player, computer, init }
