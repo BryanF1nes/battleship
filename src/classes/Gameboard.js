@@ -40,4 +40,10 @@ export class Gameboard {
 
         return true;
     }
+
+    receiveAttack(coords) {
+        const [x, y] = coords;
+
+        this.board[x][y].hit = true;
+    }
 }

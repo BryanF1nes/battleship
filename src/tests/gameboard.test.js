@@ -35,3 +35,11 @@ test('Gameboard - Can place ships on the edges', () => {
     expect(gameboard.placeShip(2, [0, 8])).toBeTruthy();
     expect(gameboard.placeShip(2, [8, 0], "vertical")).toBeTruthy();
 });
+
+test('Gameboard - Can receive an attack at a given ([x, y]) coordinate', () => {
+    const gameboard = new Gameboard();
+
+    gameboard.placeShip(2, [0, 1]);
+    gameboard.receiveAttack([0, 1]);
+    expect(gameboard.board[0][1].hit).toBeTruthy();
+})
