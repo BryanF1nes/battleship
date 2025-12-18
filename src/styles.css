@@ -138,6 +138,11 @@ p {
     font-weight: bold;
 }
 
+/* ===== Sunk ====== */
+.cell.hit.sunk {
+    background-color: #334155;
+}
+
 /* ===== Board labels ===== */
 
 .board-title {

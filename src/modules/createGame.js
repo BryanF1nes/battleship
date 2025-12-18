@@ -38,6 +38,10 @@ export const render = (board, container) => {
 
             if (col.hit && col.ship !== null) {
                 div.classList.add("hit");
+
+                if (col.ship.sunk) {
+                    div.classList.add("sunk");
+                }
             }
 
             if (col.hit && col.ship === null) {
@@ -45,9 +49,8 @@ export const render = (board, container) => {
             }
 
             div.addEventListener("click", () => {
-                console.log("Before:", board.board[x][y]);
+                if (col.hit) return;
                 board.receiveAttack([x, y]);
-                console.log("After:", board.board[x][y]);
                 render(board, container);
             });
 
