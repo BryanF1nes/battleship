@@ -1,6 +1,9 @@
 import { renderBoard } from "./ui";
 
 export const bindBoardEvents = (container, game, isComputerBoard = false) => {
+    const playerBoard = document.querySelector(".player-board");
+    const computerBoard = document.querySelector(".computer-board");
+
     container.addEventListener("click", (e) => {
         const cell = e.target;
         if (!cell.classList.contains("cell")) return;
@@ -12,7 +15,7 @@ export const bindBoardEvents = (container, game, isComputerBoard = false) => {
             const placed = game.placeShipAt(x, y);
             if (!placed) return;
 
-            renderBoard(game.player.gameboard, document.querySelector(".player-board"));
+            renderBoard(game.player.gameboard,);
             updatePlacementStatus(game)
             return;
         }
@@ -22,8 +25,8 @@ export const bindBoardEvents = (container, game, isComputerBoard = false) => {
         const success = game.attack(x, y);
         if (!success) return;
 
-        renderBoard(game.player.gameboard, document.querySelector(".player-board"));
-        renderBoard(game.computer.gameboard, document.querySelector(".computer-board"), {
+        renderBoard(game.player.gameboard, playerBoard);
+        renderBoard(game.computer.gameboard, computerBoard, {
             hideShips: true,
         });
 
@@ -39,7 +42,7 @@ export const bindBoardEvents = (container, game, isComputerBoard = false) => {
             const [cx, cy] = game.computer.getRandomAttack();
             game.attack(cx, cy);
 
-            renderBoard(game.player.gameboard, document.querySelector(".player-board"))
+            renderBoard(game.player.gameboard, playerBoard)
             updatePlacementStatus(game)
 
             const winner = game.checkGameOver();
